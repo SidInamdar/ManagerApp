@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'AccountDisplayWidgets.dart';
+import 'InputAccountInfoPage.dart';
 
 void main() {
   runApp(MyApp());
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
           body: Container(
             color: Colors.black12,
             child: Column(
-              children: <Widget>[AccountsSection(), Container()],
+              children: <Widget>[AccountsSection(account: Account(AccountName: "CASH", AccountBalance: "0.0"),), Container()],
             ),
           )),
     );

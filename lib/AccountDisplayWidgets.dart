@@ -1,39 +1,58 @@
 import 'package:flutter/material.dart';
+import 'package:manager_app/InputAccountInfoPage.dart';
+import 'InputAccountInfoPage.dart';
 
 class AccountsSection extends StatefulWidget {
-
-  const AccountsSection({Key? key}) : super(key: key);
+  final Account account;
+  AccountsSection({Key? key, required this.account}) : super(key: key);
+  List<Widget> accountsList = <Widget>[
+    AccountDisplayButton(accountName: 'Account 1', accountBalance: '20.0'),
+    SizedBox(width: 10.0)
+  ];
+  List<Widget> addItemToAccountsList(
+      {String AccountName: 'Account 1', String AccountBalanace: '20.0'}) {
+    accountsList.add(AccountDisplayButton(
+        accountName: AccountName, accountBalance: AccountBalanace));
+    accountsList.add(SizedBox(width: 10.0));
+    return accountsList;
+  }
 
   @override
-  _AccountsSectionState createState() => _AccountsSectionState();
-
-
+  _AccountsSectionState createState() {
+    this.accountsList = addItemToAccountsList(
+        AccountName: this.account.AccountName,
+        AccountBalanace: this.account.AccountBalance);
+    return _AccountsSectionState();
+  }
 }
 
 class _AccountsSectionState extends State<AccountsSection> {
- //  @override
-  List<Widget> accountsList = <Widget>[AccountDisplayButton(accountName: 'Account 1', accountBalance: '20.0'),
-                                        SizedBox(width: 10.0)];
-
-  void addItemToAccountsList () {
-    this.accountsList.add(AccountDisplayButton(accountName: 'Account 1', accountBalance: '20.0'));
-        this.accountsList.add(SizedBox(width: 10.0));
-  }
-
   Widget build(BuildContext context) {
     return Container(
-      //    alignment: ,
-      width: double.infinity,
-      height: 150.0,
-      padding: EdgeInsets.all(5.0),
-      color: Colors.black12,
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-          children: this.accountsList + <Widget>[TextButton.icon(onPressed: () {setState(() {
-            addItemToAccountsList();
-          });}, icon: Icon(IconData(57419, fontFamily: 'MaterialIcons')),label: Text('ADD'),)],
-    ));
-
+        //    alignment: ,
+        width: double.infinity,
+        height: 150.0,
+        padding: EdgeInsets.all(5.0),
+        color: Colors.black12,
+        child: ListView(
+          scrollDirection: Axis.horizontal,
+          children: widget.accountsList +
+              <Widget>[
+                TextButton.icon(
+                  onPressed: () {
+                    setState(() {
+                      // addItemToAccountsList();
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => InputAccountInfoPage()));
+                    });
+                  },
+                  icon: Icon(IconData(57419, fontFamily: 'MaterialIcons')),
+                  label: Text('ADD'),
+                )
+              ],
+        ));
   }
 }
 
@@ -67,3 +86,11 @@ class _AccountDisplayButtonState extends State<AccountDisplayButton> {
   }
 }
 
+/*List<Widget> accountsList = <Widget>[AccountDisplayButton(accountName: 'Account 1', accountBalance: '20.0'),
+  SizedBox(width: 10.0)];
+
+List<Widget> addItemToAccountsList ({String AccountName : 'Account 1', String AccountBalanace : '20.0'}) {
+  accountsList.add(AccountDisplayButton(accountName: AccountName, accountBalance: AccountBalanace));
+ accountsList.add(SizedBox(width: 10.0));
+  return accountsList;
+}*/
