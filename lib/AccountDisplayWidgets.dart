@@ -3,30 +3,23 @@ import 'package:manager_app/InputAccountInfoPage.dart';
 import 'InputAccountInfoPage.dart';
 
 class AccountsSection extends StatefulWidget {
-  final Account account;
-  AccountsSection({Key? key, required this.account}) : super(key: key);
-  List<Widget> accountsList = <Widget>[
-    AccountDisplayButton(accountName: 'Account 1', accountBalance: '20.0'),
-    SizedBox(width: 10.0)
-  ];
-  List<Widget> addItemToAccountsList(
-      {String AccountName: 'Account 1', String AccountBalanace: '20.0'}) {
-    accountsList.add(AccountDisplayButton(
-        accountName: AccountName, accountBalance: AccountBalanace));
-    accountsList.add(SizedBox(width: 10.0));
-    return accountsList;
-  }
+
+  AccountsSection({Key? key}) : super(key: key);
+
+  // final Stream<Account> stream;
 
   @override
-  _AccountsSectionState createState() {
-    this.accountsList = addItemToAccountsList(
-        AccountName: this.account.AccountName,
-        AccountBalanace: this.account.AccountBalance);
-    return _AccountsSectionState();
-  }
+  _AccountsSectionState createState()  => _AccountsSectionState();
+
 }
 
 class _AccountsSectionState extends State<AccountsSection> {
+   Account account= Account(accountName: 'CASH', accountBalance: '10.0');
+
+   List<Widget> displayAccountsList = <Widget>[AccountDisplayButton(accountName: 'Account 1', accountBalance: '20.0'),
+     SizedBox(width: 10.0)];
+
+  @override
   Widget build(BuildContext context) {
     return Container(
         //    alignment: ,
@@ -36,17 +29,24 @@ class _AccountsSectionState extends State<AccountsSection> {
         color: Colors.black12,
         child: ListView(
           scrollDirection: Axis.horizontal,
-          children: widget.accountsList +
+          children: displayAccountsList +
               <Widget>[
                 TextButton.icon(
                   onPressed: () {
+
+                  Future newaccount = Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => InputAccountInfoPage()));
+
+                  newaccount.then((value) {
+                    final acc = value;
+                    addItemToAccountsList(acc);
                     setState(() {
-                      // addItemToAccountsList();
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => InputAccountInfoPage()));
+                      displayAccountsList = accountsList;
                     });
+                  });
+
                   },
                   icon: Icon(IconData(57419, fontFamily: 'MaterialIcons')),
                   label: Text('ADD'),
@@ -86,11 +86,10 @@ class _AccountDisplayButtonState extends State<AccountDisplayButton> {
   }
 }
 
-/*List<Widget> accountsList = <Widget>[AccountDisplayButton(accountName: 'Account 1', accountBalance: '20.0'),
+List<Widget> accountsList = <Widget>[AccountDisplayButton(accountName: 'Account 1', accountBalance: '20.0'),
   SizedBox(width: 10.0)];
 
-List<Widget> addItemToAccountsList ({String AccountName : 'Account 1', String AccountBalanace : '20.0'}) {
-  accountsList.add(AccountDisplayButton(accountName: AccountName, accountBalance: AccountBalanace));
+void addItemToAccountsList (Account account) {
+  accountsList.add(AccountDisplayButton(accountName: account.accountName, accountBalance: account.accountBalance));
  accountsList.add(SizedBox(width: 10.0));
-  return accountsList;
-}*/
+}

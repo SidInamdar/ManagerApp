@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:manager_app/AccountDisplayWidgets.dart';
 
 class InputAccountInfoPage extends StatefulWidget {
   const InputAccountInfoPage({Key? key}) : super(key: key);
@@ -9,8 +8,8 @@ class InputAccountInfoPage extends StatefulWidget {
 }
 
 class _InputAccountInfoPageState extends State<InputAccountInfoPage> {
-  String _AccountName = 'Account 1';
-  String _AccountBalance = '0.0';
+  String _accountName = 'Account 1';
+  String _accountBalance = '0.0';
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -23,7 +22,7 @@ class _InputAccountInfoPageState extends State<InputAccountInfoPage> {
         }
       },
       onSaved: (String? value) {
-        _AccountName = value!;
+        if (value!.isNotEmpty)  _accountName = value;
       },
     );
   }
@@ -37,12 +36,17 @@ class _InputAccountInfoPageState extends State<InputAccountInfoPage> {
         }
       },
       onSaved: (String? value) {
-        _AccountName = value!;
+        if (value!.isNotEmpty) _accountBalance = value;
         print(value);
       },
     );
   }
-
+final myController = TextEditingController();
+  @override
+  void dispose() {
+    myController.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,6 +56,7 @@ class _InputAccountInfoPageState extends State<InputAccountInfoPage> {
       body: Container(
         margin: EdgeInsets.all(20.0),
         child: Form(
+          key: _formKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -60,21 +65,14 @@ class _InputAccountInfoPageState extends State<InputAccountInfoPage> {
               SizedBox(
                 height: 100,
               ),
-              ElevatedButton(
+              TextButton(
                   child: Text(
                     'Submit',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
+                    style: TextStyle(color: Colors.blue, fontSize: 16),
                   ),
                   onPressed: () {
-         //           _formKey.currentState!.save();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => AccountsSection(
-                              account: Account(
-                                  AccountName: _AccountName,
-                                  AccountBalance: _AccountBalance))),
-                    );
+                   if(_formKey.currentState!.validate()) _formKey.currentState!.save();
+                    Navigator.pop(context,Account(accountName: _accountName, accountBalance: _accountBalance));
                   })
             ],
           ),
@@ -84,9 +82,10 @@ class _InputAccountInfoPageState extends State<InputAccountInfoPage> {
   }
 }
 
-class Account {
-  final String AccountName;
-  final String AccountBalance;
 
-  Account({required this.AccountName , required this.AccountBalance});
+class Account {
+  final String accountName;
+  final String accountBalance;
+
+  Account({required this.accountName , required this.accountBalance});
 }
