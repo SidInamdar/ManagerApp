@@ -72,7 +72,7 @@ final myController = TextEditingController();
                   ),
                   onPressed: () {
                    if(_formKey.currentState!.validate()) _formKey.currentState!.save();
-                    Navigator.pop(context,Account(accountName: _accountName, accountBalance: _accountBalance));
+                    Navigator.pop(context,Account(accountName: _accountName, accountBalance: double.parse(_accountBalance)));
                   })
             ],
           ),
@@ -85,7 +85,7 @@ final myController = TextEditingController();
 
 class Account {
   final String accountName;
-  final String accountBalance;
+  final double accountBalance;
 
   Account({required this.accountName , required this.accountBalance});
 }

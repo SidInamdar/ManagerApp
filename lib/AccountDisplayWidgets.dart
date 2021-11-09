@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:manager_app/InputAccountInfoPage.dart';
 import 'InputAccountInfoPage.dart';
 
+/*
+AccountsSection Class describes accounts that are added
+has a list buttons displaying account names and balance
+and a add button to add another account
+ */
 class AccountsSection extends StatefulWidget {
 
   AccountsSection({Key? key}) : super(key: key);
@@ -14,7 +19,7 @@ class AccountsSection extends StatefulWidget {
 }
 
 class _AccountsSectionState extends State<AccountsSection> {
-   Account account= Account(accountName: 'CASH', accountBalance: '10.0');
+   Account account= Account(accountName: 'CASH', accountBalance: double.parse('10.0'));
 
    List<Widget> displayAccountsList = <Widget>[AccountDisplayButton(accountName: 'Account 1', accountBalance: '20.0'),
      SizedBox(width: 10.0)];
@@ -48,8 +53,8 @@ class _AccountsSectionState extends State<AccountsSection> {
                   });
 
                   },
-                  icon: Icon(IconData(57419, fontFamily: 'MaterialIcons')),
-                  label: Text('ADD'),
+                  icon: Icon(Icons.add),
+                  label: Text('ADD ACCOUNT'),
                 )
               ],
         ));
@@ -90,6 +95,6 @@ List<Widget> accountsList = <Widget>[AccountDisplayButton(accountName: 'Account 
   SizedBox(width: 10.0)];
 
 void addItemToAccountsList (Account account) {
-  accountsList.add(AccountDisplayButton(accountName: account.accountName, accountBalance: account.accountBalance));
+  accountsList.add(AccountDisplayButton(accountName: account.accountName, accountBalance: account.accountBalance.toString()));
  accountsList.add(SizedBox(width: 10.0));
 }
